@@ -1,5 +1,7 @@
 package main
 
-func main() {
+import "gobot/app"
 
+func main() {
+	app.Run()
 }
