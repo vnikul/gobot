@@ -49,6 +49,12 @@ func load(configMap map[string]string) (entities.Config, error) {
 				return entities.Config{}, errors.New(fmt.Sprintf("could not parse field %s", field.Name))
 			}
 			fieldValue.SetInt(intVal)
+		case reflect.Bool:
+			boolVal, err := strconv.ParseBool(value)
+			if err != nil {
+				return entities.Config{}, errors.New(fmt.Sprintf("could not parse field %s", field.Name))
+			}
+			fieldValue.SetBool(boolVal)
 		}
 	}
 
