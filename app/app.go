@@ -9,6 +9,7 @@ import (
 	"os/signal"
 	"strings"
 	"syscall"
+	"time"
 )
 
 func Run() {
@@ -60,7 +61,8 @@ func Run() {
 					msg.ReplyToMessageID = update.Message.MessageID
 
 					if _, err := bot.Send(msg); err != nil {
-						if err.Error() == "Bad Request: chat not found" {
+						if strings.Contains(err.Error(), "replied message not found") {
+							time.Sleep(3 * time.Second)
 							return
 						}
 						log.Println("There was an error %s", err.Error())
@@ -72,7 +74,7 @@ func Run() {
 					pipa.ReplyToMessageID = update.Message.MessageID
 					_, err = bot.Send(pipa)
 					if err != nil {
-						if err.Error() == "Bad Request: chat not found" {
+						if strings.Contains(err.Error(), "replied message not found") {
 							return
 						}
 						log.Fatalf("There was an error %s", err.Error())
@@ -87,7 +89,7 @@ func Run() {
 					}
 					_, err = bot.Send(benis)
 					if err != nil {
-						if err.Error() == "Bad Request: chat not found" {
+						if strings.Contains(err.Error(), "chat not found") {
 							return
 						}
 						log.Fatalf("There was an error %s", err.Error())
