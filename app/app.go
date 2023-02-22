@@ -60,17 +60,21 @@ func Run() {
 					msg.ReplyToMessageID = update.Message.MessageID
 
 					if _, err := bot.Send(msg); err != nil {
-						log.Fatalf("There was an error %s", err.Error())
+						if err.Error() == "Bad Request: chat not found" {
+							return
+						}
+						log.Println("There was an error %s", err.Error())
 						return
 					}
 				}
 				if update.Message.Text != "" && (strings.Contains(strings.ToLower(update.Message.Text), "pipa") || strings.Contains(strings.ToLower(update.Message.Text), "пипа")) {
 					pipa := tgbotapi.NewMessage(update.Message.Chat.ID, "PIPA")
-					if update.Message.MessageID != 0 {
-						pipa.ReplyToMessageID = update.Message.MessageID
-					}
+					pipa.ReplyToMessageID = update.Message.MessageID
 					_, err = bot.Send(pipa)
 					if err != nil {
+						if err.Error() == "Bad Request: chat not found" {
+							return
+						}
 						log.Fatalf("There was an error %s", err.Error())
 						return
 					}
@@ -83,6 +87,9 @@ func Run() {
 					}
 					_, err = bot.Send(benis)
 					if err != nil {
+						if err.Error() == "Bad Request: chat not found" {
+							return
+						}
 						log.Fatalf("There was an error %s", err.Error())
 						return
 					}
