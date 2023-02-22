@@ -66,7 +66,9 @@ func Run() {
 				}
 				if update.Message.Text != "" && (strings.Contains(strings.ToLower(update.Message.Text), "pipa") || strings.Contains(strings.ToLower(update.Message.Text), "пипа")) {
 					pipa := tgbotapi.NewMessage(update.Message.Chat.ID, "PIPA")
-					pipa.ReplyToMessageID = update.Message.MessageID
+					if update.Message.MessageID != 0 {
+						pipa.ReplyToMessageID = update.Message.MessageID
+					}
 					_, err = bot.Send(pipa)
 					if err != nil {
 						log.Fatalf("There was an error %s", err.Error())
@@ -76,7 +78,9 @@ func Run() {
 
 				if update.Message.Text != "" && (strings.Contains(strings.ToLower(strings.ReplaceAll(update.Message.Text, " ", "")), "haha") || strings.Contains(strings.ToLower(strings.ReplaceAll(update.Message.Text, " ", "")), "хаха")) {
 					benis := tgbotapi.NewMessage(update.Message.Chat.ID, "BENIS")
-					benis.ReplyToMessageID = update.Message.MessageID
+					if update.Message.MessageID != 0 {
+						benis.ReplyToMessageID = update.Message.MessageID
+					}
 					_, err = bot.Send(benis)
 					if err != nil {
 						log.Fatalf("There was an error %s", err.Error())
