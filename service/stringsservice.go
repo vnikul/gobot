@@ -10,7 +10,7 @@ var PipaDefinitions = []string{"пипа", "пипы", "пипе", "пипам",
 
 var HehDefinitions = []string{"haha", "hehe", "хаха", "хах", "хехе", "хех"}
 
-var nonAlphanumericRegex = regexp.MustCompile(`[^\p{L}\p{N} ]+`)
+var nonAlphanumericRegex = regexp.MustCompile(`[[:punct:]]|[[:space:]]`)
 
 func clearString(str string) string {
 	return nonAlphanumericRegex.ReplaceAllString(str, "")
