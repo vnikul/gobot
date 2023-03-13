@@ -34,7 +34,7 @@ func ContainsString(text string, slice []string) bool {
 }
 
 func ContainsYes(text string) bool {
-	if slices.Contains(strings.Split(clearString(text), " "), "да") {
+	if slices.Contains(strings.Split(strings.ToLower(clearString(text)), " "), "да") {
 		return true
 	}
 	return false
