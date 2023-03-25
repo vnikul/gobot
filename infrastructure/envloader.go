@@ -7,7 +7,6 @@ import (
 )
 
 func LoadConfigFromEnv() (entities.Config, error) {
-
 	err := godotenv.Load(".env")
 	var config entities.Config
 	err = envconfig.Process("", &config)
