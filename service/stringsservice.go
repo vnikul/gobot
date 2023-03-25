@@ -10,21 +10,22 @@ var PipaDefinitions = []string{"пипа", "пипы", "пипе", "пипам",
 
 var HehDefinitions = []string{"haha", "hehe", "хаха", "хах", "хехе", "хех"}
 
-var nonAlphanumericRegex = regexp.MustCompile(`[[:punct:]]|[[:space:]]`)
+var nonAlphanumericRegex = regexp.MustCompile(`[[:punct:]]`)
 
 func clearString(str string) string {
 	return nonAlphanumericRegex.ReplaceAllString(str, "")
 }
 
 func ContainsPipa(text string) bool {
-	return ContainsString(text, PipaDefinitions)
+	return ContainsString(clearString(text), PipaDefinitions)
 }
 
 func ContainsHeh(text string) bool {
-	return ContainsString(text, HehDefinitions)
+	return ContainsString(clearString(text), HehDefinitions)
 }
 
 func ContainsString(text string, slice []string) bool {
+	text = strings.ReplaceAll(text, " ", "")
 	for _, val := range slice {
 		if strings.Contains(strings.ToLower(strings.ReplaceAll(text, " ", "")), val) {
 			return true
