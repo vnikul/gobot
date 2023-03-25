@@ -12,7 +12,7 @@ import (
 
 func Run() {
 	_, cancel := context.WithCancel(context.Background())
-	exit := make(chan os.Signal, 1) // we need to reserve to buffer size 1, so the notifier are not blocked
+	exit := make(chan os.Signal, 1)
 	signal.Notify(exit, os.Interrupt, syscall.SIGKILL)
 
 	conf, _ := infrastructure.LoadConfigFromEnv()
