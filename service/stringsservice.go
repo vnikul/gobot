@@ -40,3 +40,10 @@ func ContainsYes(text string) bool {
 	}
 	return false
 }
+
+func ContainsNo(text string) bool {
+	if slices.Contains(strings.Split(strings.ToLower(clearString(text)), " "), "нет") {
+		return true
+	}
+	return false
+}

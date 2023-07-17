@@ -85,6 +85,15 @@ func (bot *GrammBot) ProcessUpdate(update tgbotapi.Update) {
 		}
 	}
 
+	if updateMsg != "" && service.ContainsNo(updateMsg) && rand.Intn(2) == 1 {
+		badWord := tgbotapi.NewMessage(update.Message.Chat.ID, "ГОМОСЕКСУАЛЬНЫЙ ОТВЕТ")
+		badWord.ReplyToMessageID = update.Message.MessageID
+		_, err := bot.BotAPI.Send(badWord)
+		if err != nil {
+			bot.processError(badWord, err)
+		}
+	}
+
 	return
 }
 
