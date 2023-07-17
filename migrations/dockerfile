@@ -1,0 +1,13 @@
+# Use a base image with PHP and Composer pre-installed
+FROM composer
+
+COPY composer.json .
+COPY composer.lock .
+COPY migrations.json .
+COPY migrations-db.php .
+COPY Migrations ./data/doctrine/migrations/lib/MyProject/Migrations
+
+RUN composer install
+
+# Run the Doctrine migrations
+CMD ["php", "bin/doctrine-migrations", "migrate", "--no-interaction"]

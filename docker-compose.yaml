@@ -1,14 +1,33 @@
 version: '3'
+
+networks:
+  bot-network:
+    driver: bridge
+
 services:
   app:
     build: .
     ports:
       - "8080:8080"
     depends_on:
-      - db
-  db:
-    image: mongo
+      - bot-db
+    networks:
+     - bot-network
+  bot-db:
+    image: postgres
     ports:
-      - "27017:27017"
+      - "5432:5430"
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USERNAME}
+    networks:
+      - bot-network
     volumes:
-      - ./data:/data/db
+      - ./database:/var/lib/postgresql
+  migrations:
+    build:
+      context: ./migrations/
+      dockerfile: dockerfile
+    volumes:
+      - ./migrations:/app/migrations
