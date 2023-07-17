@@ -1,20 +1,21 @@
-# Use an official Golang runtime as a parent image
-FROM golang:1.20-alpine
+ARG GOLANG_VERSION=1.20
+ARG ALPINE_VERSION=3.18
 
-# Set the working directory to /app
-WORKDIR /app
+# Build section
+FROM golang:${GOLANG_VERSION}-alpine${ALPINE_VERSION} AS builder
 
-# Copy the current directory contents into the container at /app
+ENV CGO_ENABLED 0
+ENV GOOS linux
+
+WORKDIR /build
+ADD go.mod .
+ADD go.sum .
+RUN go mod download
 COPY . .
+RUN go build -ldflags="-s -w" -o /app/bot main.go
 
-# Build the Go app
-RUN go build -o main .
-
-# Set the PORT environment variable
-ENV PORT=8080
-
-# Expose port 8080 to the outside world
-EXPOSE 8080
-
-# Run the binary program produced by `go build`
-CMD ["./main"]
+# Release
+FROM alpine:${ALPINE_VERSION}
+WORKDIR /app
+COPY --from=builder /app/bot /app/bot
+CMD ["/app/bot"]
