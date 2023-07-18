@@ -21,6 +21,7 @@ type GrammBot struct {
 func NewGrammBot(config entities.Config) (*GrammBot, error) {
 	bot, err := tgbotapi.NewBotAPI(config.Token)
 	if err != nil {
+		log.Fatalf("error starting bot with token %s", config.Token)
 		return &GrammBot{}, err
 	}
 	bot.Debug = config.Debug
