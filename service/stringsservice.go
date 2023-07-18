@@ -50,5 +50,5 @@ func ContainsNo(text string) bool {
 }
 
 func YellAtBadWord() bool {
-	return rand.Intn(4) == 4
+	return rand.Intn(5) == 4
 }
