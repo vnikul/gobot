@@ -19,14 +19,14 @@ func Run() {
 
 	bot, err := NewGrammBot(conf)
 	if err != nil {
-		log.Fatalf("There was an error %s", err.Error())
+		log.Fatalf("There was an error starting bot %s", err.Error())
 		return
 	}
 
 	startMessage := tgbotapi.NewMessage(conf.ChatId, "status ok")
 	_, err = bot.Send(startMessage)
 	if err != nil {
-		log.Fatalf("There was an error %s", err.Error())
+		log.Fatalf("There was an error sending start message %s", err.Error())
 		return
 	}
 
@@ -36,7 +36,7 @@ func Run() {
 			sleepMsg := tgbotapi.NewMessage(conf.ChatId, "i sleep")
 			_, err = bot.Send(sleepMsg)
 			if err != nil {
-				log.Fatalf("There was an error %s", err.Error())
+				log.Fatalf("There was an error sending exit message %s", err.Error())
 				return
 			}
 			cancel()
