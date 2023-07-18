@@ -5,7 +5,6 @@ import (
 	"gobot/entities"
 	"gobot/service"
 	"log"
-	"math/rand"
 	"strings"
 	"time"
 )
@@ -76,8 +75,17 @@ func (bot *GrammBot) ProcessUpdate(update tgbotapi.Update) {
 		}
 	}
 
-	if updateMsg != "" && service.ContainsYes(updateMsg) && rand.Intn(2) == 1 {
+	if updateMsg != "" && service.ContainsYes(updateMsg) && service.YellAtBadWord() {
 		badWord := tgbotapi.NewMessage(update.Message.Chat.ID, "ПИЗДА")
+		badWord.ReplyToMessageID = update.Message.MessageID
+		_, err := bot.BotAPI.Send(badWord)
+		if err != nil {
+			bot.processError(badWord, err)
+		}
+	}
+
+	if updateMsg != "" && service.ContainsNo(updateMsg) && service.YellAtBadWord() {
+		badWord := tgbotapi.NewMessage(update.Message.Chat.ID, "ГОМОСЕКСУАЛЬНЫЙ ОТВЕТ")
 		badWord.ReplyToMessageID = update.Message.MessageID
 		_, err := bot.BotAPI.Send(badWord)
 		if err != nil {

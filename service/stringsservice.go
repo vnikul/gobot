@@ -4,6 +4,7 @@ import (
 	"golang.org/x/exp/slices"
 	"regexp"
 	"strings"
+	"math/rand"
 )
 
 var PipaDefinitions = []string{"пипа", "пипы", "пипе", "пипам", "пипк", "пипо", "пипу", "пипи"}
@@ -39,4 +40,15 @@ func ContainsYes(text string) bool {
 		return true
 	}
 	return false
+}
+
+func ContainsNo(text string) bool {
+	if slices.Contains(strings.Split(strings.ToLower(clearString(text)), " "), "нет") {
+		return true
+	}
+	return false
+}
+
+func YellAtBadWord() bool {
+	return rand.Intn(5) == 4
 }
