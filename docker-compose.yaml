@@ -1,15 +1,7 @@
 version: '3'
 
-networks:
-  bot-network:
-    driver: bridge
-
 services:
   app:
     build: .
-    ports:
-      - "8080:8080"
-    networks:
-     - bot-network
-    env_file:
-      - .env
+    volumes:
+      - ./.env:/app/.env
